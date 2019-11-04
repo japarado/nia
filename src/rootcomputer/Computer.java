@@ -1,5 +1,6 @@
 package rootcomputer;
 
+import rootcomputer.expression.NaturalLog;
 import rootcomputer.expression.Polynomial;
 
 import java.math.BigDecimal;
@@ -83,6 +84,44 @@ public class Computer
     public LinkedList<Iteration> computeNaturalLog()
     {
         LinkedList<Iteration> iterations = new LinkedList<>();
+        NaturalLog naturalLog = new NaturalLog(this.getDecimalPrecision());
+
+        // Create the first iteration
+        iterations.add(new Iteration(0, this.getInitialX(), naturalLog.computeFunction(this.getInitialX())));
+
+        while (!iterations.getLast().getFunctionResult().equals(new BigDecimal(0)) && iterations.getLast().getIteration() < 500)
+        {
+            Iteration iteration = new Iteration();
+            iteration.setIteration(iterations.getLast().getIteration() + 1);
+
+            // Compute the next x value through Newton Raphson
+            try
+            {
+                BigDecimal primeResult = naturalLog.computePrime(this.getInitialX());
+                this.setInitialX(primeResult);
+                BigDecimal functionResult = naturalLog.computeFunction(this.getInitialX());
+
+                iteration.setPrimeResult(primeResult);
+                iteration.setFunctionResult(functionResult);
+
+                if(iterations.getLast().getFunctionResult().equals(iteration.getFunctionResult()))
+                {
+                    iterations.add(iteration);
+                    break;
+                }
+                else
+                {
+                    iterations.add(iteration);
+                }
+            }
+            catch(ArithmeticException e)
+            {
+                System.out.println("ERROR");
+                System.out.println(e.getMessage());
+                break;
+            }
+        }
+
         return iterations;
     }
 

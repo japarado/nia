@@ -21,12 +21,15 @@ public class NaturalLog extends Expression
     @Override
     public BigDecimal computeFunction(BigDecimal value)
     {
-        return null;
+        return new BigDecimal( Math.log( value.doubleValue() + 1 ) ).add(new BigDecimal(1)).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
     }
 
     @Override
     public BigDecimal computePrime(BigDecimal value)
     {
-        return null;
+        BigDecimal numerator = new BigDecimal( Math.log( value.doubleValue() + 1 ) ).add(new BigDecimal(1)).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
+        BigDecimal denominator = new BigDecimal(1).divide((value.add(new BigDecimal(1))), RoundingMode.HALF_UP).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
+
+        return numerator.divide(denominator, RoundingMode.HALF_UP);
     }
 }
