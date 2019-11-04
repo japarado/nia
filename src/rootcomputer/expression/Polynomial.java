@@ -1,5 +1,8 @@
 package rootcomputer.expression;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Polynomial extends Expression
 {
     public Polynomial(int decimalPrecision)
@@ -8,14 +11,22 @@ public class Polynomial extends Expression
     }
 
     @Override
-    public Double computeFunction(Double value)
+    public BigDecimal computeFunction(BigDecimal value)
     {
-        return this.adjustPrecision(value - Math.pow(value, 2));
+        return value.subtract(value.pow(2)).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
+//        return value.subtract(value.pow(2));
     }
 
     @Override
-    public Double computePrime(Double value)
+    public BigDecimal computePrime(BigDecimal value) throws ArithmeticException
     {
-        return this.adjustPrecision((value - Math.pow(value, 2)) / (1 - 2 * value));
+        BigDecimal numerator = value.subtract(value.pow(2)).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
+        BigDecimal denominator = new BigDecimal(1).subtract(value.multiply(new BigDecimal(2))).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
+
+//        BigDecimal numerator = value.subtract(value.pow(2));
+//        BigDecimal denominator = new BigDecimal(1);
+
+        return numerator.divide(denominator, RoundingMode.HALF_UP);
+//        return this.adjustPrecision((value - Math.pow(value, 2)) / (1 - 2 * value));
     }
 }

@@ -1,22 +1,13 @@
 package rootcomputer;
 
+import java.math.BigDecimal;
+
 public class Iteration
 {
-    public Iteration(int iteration, double primeResult, double functionResult)
+    public Iteration(int iteration, BigDecimal primeResult, BigDecimal functionResult)
     {
         this.iteration = iteration;
         this.primeResult = primeResult;
-        this.functionResult = functionResult;
-    }
-
-    public Iteration(int iteration)
-    {
-        this.iteration = iteration;
-    }
-
-    public Iteration(int iteration, double functionResult)
-    {
-        this.iteration = iteration;
         this.functionResult = functionResult;
     }
 
@@ -26,8 +17,8 @@ public class Iteration
     }
 
     private int iteration;
-    private double primeResult;
-    private double functionResult;
+    private BigDecimal primeResult;
+    private BigDecimal functionResult;
 
     public int getIteration()
     {
@@ -39,22 +30,22 @@ public class Iteration
         this.iteration = iteration;
     }
 
-    public double getPrimeResult()
+    public BigDecimal getPrimeResult()
     {
         return primeResult;
     }
 
-    public void setPrimeResult(double primeResult)
+    public void setPrimeResult(BigDecimal primeResult)
     {
         this.primeResult = primeResult;
     }
 
-    public double getFunctionResult()
+    public BigDecimal getFunctionResult()
     {
         return functionResult;
     }
 
-    public void setFunctionResult(double functionResult)
+    public void setFunctionResult(BigDecimal functionResult)
     {
         this.functionResult = functionResult;
     }

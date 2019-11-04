@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -55,14 +54,12 @@ public class Controller
         deleteTableItems();
         deleteChartData();
 
-        // Get the input value from the initial x value field
-        Double initialXValue =
-            BigDecimal.valueOf(Double.parseDouble(initialXValueTxtField.getText()))
-                .setScale(Integer.parseInt(decimalPlacesTxtField.getText()), RoundingMode.HALF_UP)
-                .doubleValue();
 
         // Get the required precision
         int decimalPrecision = Integer.parseInt(decimalPlacesTxtField.getText());
+
+        // Get the input value from the initial x value field
+        BigDecimal initialXValue = new BigDecimal(initialXValueTxtField.getText()).setScale(decimalPrecision, RoundingMode.HALF_UP);
 
         // Create new computer instance
         Computer computer = new Computer(decimalPrecision, initialXValue);
@@ -88,10 +85,10 @@ public class Controller
             FXCollections.observableArrayList(new ArrayList<>(iterations));
         tableView.getItems().addAll(tableData);
 
-        System.out.println("Expression type " + expression);
-        System.out.println("Initial x value: " + initialXValue);
-        System.out.println("Precision digits " + decimalPrecision);
-        System.out.println("Adjsuted x value: " + BigDecimal.valueOf(initialXValue));
+//        System.out.println("Expression type " + expression);
+//        System.out.println("Initial x value: " + initialXValue);
+//        System.out.println("Precision digits " + decimalPrecision);
+//        System.out.println("Adjsuted x value: " + BigDecimal.valueOf(initialXValue));
 
         drawChart(new LinkedList<>(iterations));
 
@@ -117,54 +114,14 @@ public class Controller
     {
         XYChart.Series<Double, Double> series = new XYChart.Series<>();
 
-        HashMap<String, Double> xBounds = getXBounds(iterations);
-        HashMap<String, Double> yBounds = getYBounds(iterations);
-
         series.setName("Plot");
         for (Iteration iteration : iterations)
         {
-            Double x = iteration.getPrimeResult();
-            Double y = iteration.getFunctionResult();
-            series.getData().add(new XYChart.Data<Double, Double>(x, y));
+            BigDecimal x = iteration.getPrimeResult();
+            BigDecimal y = iteration.getFunctionResult();
+            series.getData().add(new XYChart.Data<Double, Double>(x.doubleValue(), y.doubleValue()));
         }
         chart.getData().add(series);
-//        xAxis.setUpperBound(10);
-//        xAxis.setLowerBound(-10);
-//
-//        yAxis.setUpperBound(10);
-//        yAxis.setLowerBound(-10);
-    }
-
-    private HashMap<String, Double> getXBounds(LinkedList<Iteration> iterations)
-    {
-        List<Double> xValues = new ArrayList<>();
-        for (Iteration iteration : iterations)
-        {
-            xValues.add(iteration.getPrimeResult());
-        }
-        Collections.sort(xValues);
-
-        HashMap<String, Double> xBounds = new HashMap<>();
-        xBounds.put("min", xValues.get(0));
-        xBounds.put("max", xValues.get(xValues.size() - 1));
-
-        return xBounds;
-    }
-
-    private HashMap<String, Double> getYBounds(LinkedList<Iteration> iterations)
-    {
-        List<Double> xValues = new ArrayList<>();
-        for (Iteration iteration : iterations)
-        {
-            xValues.add(iteration.getFunctionResult());
-        }
-        Collections.sort(xValues);
-
-        HashMap<String, Double> yBounds = new HashMap<>();
-        yBounds.put("min", xValues.get(0));
-        yBounds.put("max", xValues.get(xValues.size() - 1));
-
-        return yBounds;
     }
 
     /**

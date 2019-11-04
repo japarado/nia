@@ -38,7 +38,7 @@ public abstract class Expression
         return result;
     }
 
-    public abstract Double computeFunction(Double value);
+    public abstract BigDecimal computeFunction(BigDecimal value);
 
-    public abstract Double computePrime(Double value);
+    public abstract BigDecimal computePrime(BigDecimal value);
 }

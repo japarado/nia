@@ -1,5 +1,7 @@
 package rootcomputer.expression;
 
+import java.math.BigDecimal;
+
 public class Euler extends Expression
 {
     public Euler(int decimalPrecision)
@@ -8,14 +10,14 @@ public class Euler extends Expression
     }
 
     @Override
-    public Double computeFunction(Double value)
+    public BigDecimal computeFunction(BigDecimal value)
     {
-        return this.adjustPrecision(Math.pow(Math.E, value) - 3 * value);
+        return null;
     }
 
     @Override
-    public Double computePrime(Double value)
+    public BigDecimal computePrime(BigDecimal value)
     {
-        return this.adjustPrecision((Math.pow(Math.E, value) - 3 * value) / Math.pow(Math.E, value) - 3);
+        return null;
     }
 }
