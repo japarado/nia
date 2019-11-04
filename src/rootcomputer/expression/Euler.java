@@ -1,6 +1,7 @@
 package rootcomputer.expression;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Euler extends Expression
 {
@@ -12,12 +13,15 @@ public class Euler extends Expression
     @Override
     public BigDecimal computeFunction(BigDecimal value)
     {
-        return null;
+        return new BigDecimal(Math.pow(Math.E, value.doubleValue())).subtract(value.multiply(new BigDecimal(3))).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
     }
 
     @Override
     public BigDecimal computePrime(BigDecimal value)
     {
-        return null;
+        BigDecimal numerator = new BigDecimal(Math.pow(Math.E, value.doubleValue())).subtract(value.multiply(new BigDecimal(3))).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
+        BigDecimal denominator = new BigDecimal( Math.pow(Math.E, value.doubleValue()) ).subtract(new BigDecimal(3)).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
+
+        return numerator.divide(denominator, RoundingMode.HALF_UP);
     }
 }
