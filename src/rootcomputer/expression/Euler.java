@@ -22,6 +22,6 @@ public class Euler extends Expression
         BigDecimal numerator = new BigDecimal(Math.pow(Math.E, value.doubleValue())).subtract(value.multiply(new BigDecimal(3))).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
         BigDecimal denominator = new BigDecimal( Math.pow(Math.E, value.doubleValue()) ).subtract(new BigDecimal(3)).setScale(this.getDecimalPrecision(), RoundingMode.HALF_UP);
 
-        return numerator.divide(denominator, RoundingMode.HALF_UP);
+        return value.subtract(numerator.divide(denominator, RoundingMode.HALF_UP));
     }
 }

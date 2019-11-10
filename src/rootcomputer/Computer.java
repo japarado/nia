@@ -112,6 +112,7 @@ public class Computer
             {
                 BigDecimal primeResult = naturalLog.computePrime(this.getInitialX());
                 this.setInitialX(primeResult);
+
                 BigDecimal functionResult = naturalLog.computeFunction(this.getInitialX());
 
                 iteration.setPrimeResult(primeResult);
@@ -127,6 +128,12 @@ public class Computer
                     iterations.add(iteration);
                 }
             } catch (ArithmeticException e)
+            {
+                System.out.println("ERROR");
+                System.out.println(e.getMessage());
+                break;
+            }
+            catch (NumberFormatException e)
             {
                 System.out.println("ERROR");
                 System.out.println(e.getMessage());

@@ -26,7 +26,7 @@ public class Polynomial extends Expression
 //        BigDecimal numerator = value.subtract(value.pow(2));
 //        BigDecimal denominator = new BigDecimal(1);
 
-        return numerator.divide(denominator, RoundingMode.HALF_UP);
+        return value.subtract(numerator.divide(denominator, RoundingMode.HALF_UP));
 //        return this.adjustPrecision((value - Math.pow(value, 2)) / (1 - 2 * value));
     }
 }
